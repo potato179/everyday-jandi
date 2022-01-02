@@ -1,42 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>깃허브 실적 조회</title>
 </head>
+
 <body>
-    <p id="demo">ㅇㄹㅁㅇㄹ</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Company</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td>Name</td>
+                <td>Phone</td>
+                <td>Email</td>
+                <td>Company</td>
+            </tr>
+        </tfoot>
+        <tbody> 
+
+        </tbody>
+    </table>
 
     <script type="text/javascript">
-
-    let xhttp = new XMLHttpRequest();
-
-    xhttp.onreadystatechange = function () {
-        if(xhttp.readyState == 4 && xhttp.status == 200){
-            jsonfunc(this.responseText); //this = xhttp
-    //		jsonfunc(xhttp.responseText); // 둘다 가능
-        }
-    }
-    xhttp.open("GET", "https://api.github.com/users/potato179", true);
-    xhttp.send();
-
-    function jsonfunc( jsonText ) {
-
-        let json = JSON.parse(jsonText); // String -> json으로 변환
-        console.log(json)
-        let txt = "";
-        // 접근법 1
-        for(i=0; i<json.length; i++){
-            for(key in json[i]){ // key값 가져오기
-                txt += key + ":" + json[i][key]; 
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "https://api.github.com/users/potato179", true);
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log("dsfadsadfs")
+                let storage = JSON.parse(this.response);
+                for (i in storage.data) {
+                    let tr = document.createElement('tr');
+                    for (let j = 0; j < 4; j++) {
+                        let td = document.createElement('td');
+                        td.innerHTML = storage.data[i][j];
+                        tr.appendChild(td);
+                    }
+                    document.querySelector("tbody").appendChild(tr);
+                }
             }
-            txt += "<br>";
-        } 
-        console.log(txt)
-        document.getElementById('demo').innerHTML = json;
-    }
+        };
+        xhttp.send();
+
     </script>
 </body>
+
 </html>
