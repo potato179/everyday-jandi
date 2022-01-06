@@ -1,56 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <title>깃허브 실적 조회</title>
 </head>
-
 <body>
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Company</th>
-            </tr>
-        </thead>
-        <tfoot>
-            <tr>
-                <td>Name</td>
-                <td>Phone</td>
-                <td>Email</td>
-                <td>Company</td>
-            </tr>
-        </tfoot>
-        <tbody> 
-
-        </tbody>
-    </table>
-
     <script type="text/javascript">
-        let xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "https://api.github.com/users/potato179", true);
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log("dsfadsadfs")
-                let storage = JSON.parse(this.response);
-                for (i in storage.data) {
-                    let tr = document.createElement('tr');
-                    for (let j = 0; j < 4; j++) {
-                        let td = document.createElement('td');
-                        td.innerHTML = storage.data[i][j];
-                        tr.appendChild(td);
-                    }
-                    document.querySelector("tbody").appendChild(tr);
-                }
-            }
-        };
-        xhttp.send();
-
+        $(document).ready(function(){
+            $.getJSON("https://api.github.com/users/potato179", function(data){
+                var html = [];
+                $.each(data, function(i, item){
+                    console.log(item.length);
+                    html.push(`<div>${item.login}</div>`)
+                })
+            })
+        })
     </script>
 </body>
 
